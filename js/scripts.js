@@ -16,7 +16,7 @@ let pokemonList = [{
     name: 'Dratini',
     height: 1.8,
     weight: 3.3,
-    type: ['dragon']
+    type: ['dragpn']
   },
   
   {
