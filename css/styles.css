@@ -1,78 +1,163 @@
+:root {
+  --color-red: #cc0000;
+  --color-yellow: #ffde00;
+  --color-darkgrey: rgb(49, 49, 43);
+  --color-black: #000;
+  --color-white: #eee;
+}
+
+body {
+  background-color: yellow;
+}
+
 .button-class {
-    padding: 16px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 6px 2px;
-    width: 200px;
-    cursor: progress;
-    background-color: rgb(248, 197, 197);
-    color: black;
-    border: 2px solid #CD5C5C;
-    border-radius: 45px;
-  }
+  padding: 16px 32px;
+  text-align: center;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.6s;
+  cursor: progress;
+  border: 2px solid #cc0000;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.3);
+  transition: 0.9s;
+  transition-property: opacity;
+  border-radius: 50px;
+}
+
+.title { 
+  text-align: center;
+  color: #4d0909;
+  text-shadow: #cc0000;
   
-  html,
-  body {
-    font-family: Arial, sans-serif;
-  }
+}
+.pokemon-list {
+  list-style: none;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-row-gap: 10px;
+  text-align: center;
+}
+
+html, 
+body {
+  font-family: Arial, sans-serif;
+}
+
+#modal-container {
+  display: none;
+}
+
+#modal-container.is-visible {
+  position: fixed;
+  padding: 20px;
+  box-sizing: border-box;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
   
+  /* to show it above other content */
+  z-index: 999; 
   
-  #modal-container {
-    position: fixed;
-    padding: 20px;
-    box-sizing: border-box;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
+  /* to allow scrolling if the screen is not high enough*/
+  overflow: auto; 
   
-    /* above other content */
-    z-index: 999;
-  
-    /*allow scrolling*/
-    overflow: auto;
-  
-    /*center the modal */
-    display: grid;
-    text-align: center;
-  }
-  
-  .modal {
-    margin: auto;
-    display: inline-block;
-    box-sizing: border-box;
-    background: #fff;
-    padding: 15px;
-    width: 100%;
-    max-width: 700px;
-    text-align: left;
-  }
-  
-  .modal-close {
-    float: right;
-    -webkit-appearance: none;
-    border: 0;
-    background: none;
-    color: #777;
-    text-decoration: none;
-  }
-  
-  .modal__title {
-    margin-top: 0;
-  }
-  
-  .modal__text {
-    margin-bottom: 0;
-  }
-  
-  #modal-container {
-    display: none;
-  }
-  
-  #modal-container.is-visible {
-    display: block;
-  }
-  
+  /* this is used to center the modal */
+  display: grid;
+  text-align: center;
+}
+
+.modal {
+  margin: auto;
+  display: inline-block;
+  box-sizing: border-box;
+  background: #fff;
+  padding: 15px;
+  width: 100%;
+  max-width: 700px;
+  text-align: left;
+}
+
+.modal-close {
+  float: right;
+  -webkit-appearance: none;
+  border: 0;
+  background: none;
+  color: #777;
+  text-decoration: underline;
+}
+
+h1 {
+  display: block;
+  font-size: 50px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.modal p {
+font-size: 24px;
+font-weight: 700;
+text-align: center;
+margin-bottom: 0;
+}
+
+.pokemon-image-class {
+  width: 250px;
+  height: auto;
+  margin-right: 40px; 
+  border-radius: 50% ;
+}
+
+@media screen and (max-width:600px) {
+.pokemon-image-class {
+   width: auto;
+   height: auto;
+}   
+}
+
+.button-class {
+background-color: #4285f4;
+}
+
+.button-class:hover {
+background-color: #296CDB;
+}
+
+.button-class:focus {
+background-color: #0F52C1;
+outline: 0;
+border: #4d0909;
+
+/* The outline parameter suppresses the border
+color / outline when focused */
+outline: 0;
+}
+
+.button-class:active {
+background-color: #0039A8;
+}
+
+/*fixing different browsers issues */
+
+/* Webkit / Chrome Specific CSS to remove tap
+highlight color */
+.button-class {
+-webkit-tap-highlight-color: transparent;
+}
+
+/* Firefox Specific CSS to remove button
+differences and focus ring */
+.button-class {
+background-image: none;
+}
+
+.button-class::-moz-focus-inner {
+border: 0;
+}
+
+user-select: none;
+
