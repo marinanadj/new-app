@@ -1,23 +1,76 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Simple JS App</title>
-    <link href="css/styles.css" rel="stylesheet" type="text/css" />
-
-  </head>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Pokemon Dictionary</title>
+    <link rel="shortcut icon" href="./img/pokemon_logo_PNG12.png" type="image/x-icon" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" type="text/css" href="dist/styles.css" />
+    <title>Pokedox App</title>
+</head>
   <body>
-    <h1>Pokedex</h1>
-    <div id='modal-container'>
-         <div class='modal'>
-            <button class='modal-close'>X</button>
-           <img class="modal__img" src="img/" alt="pokemon_sprite">
+    <header class="page-header">
+      <nav class="navbar">
+        <a class="navbar-brand" href="index.html">
+          <img src="./img/pokemon_logo_PNG12.png" width="50" height="50" class="d-inline-block align-top" alt="" />
+        </a>
+      <!-- Search Form within Navigation Bar -->
+       <form class="form-inline">
+   <input class="form-control rounded" id="myInput" type="search" placeholder="Search for Pokemon..." aria-label="Search"/>
+      </form>
+      </nav>
+    </header>
+  <main>
+      <div class="container">
+        <div class="row">
+          <div class="col">
+            <ul class="list-group list-unstyled flex-row flex-wrap w-100 just-content: center" data-toggle="modal" data-target="#Pokemon"></ul>
+            <div class="modal fade" id="Pokemon" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="col-12 modal-title text-center text-capitalize" id="exampleModalLabel"></h5>
+                  </div>
+                        <div class="modal-body text-capitalize">
+                             ...
+                        </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">
+                               Close
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-    </div>
+      </div>
+      <!-- <div id="loading-element"></div>
+      <ul class="pokemon-list list-group"></ul>
+      <div id='modal-container'></div>
+      <div class = "button-wrapper"></div>
+      <div id='image-container'></div> -->
+      <script
+          src="https://code.jquery.com/jquery-3.6.0.min.js"
+          integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+          crossorigin="anonymous"
+        ></script>
+        <!-- jquery minified version is added instead of the slim.min.js version -->
+        <script
+          src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+          integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+          crossorigin="anonymous"
+        ></script>
+        <script
+          src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+          integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+          crossorigin="anonymous"
+        ></script>
     <script src="js/promise-polyfill.js"></script>
-    <script src="js/fetch.umd.js"></script>
-    <ul class='pokemon-list'></ul>
-    <script src="js/scripts.js"></script>
+    <script src="js/fetch-polyfill.js"></script>
+    <script src="dist/code.min.js"></script>
   </body>
 </html>

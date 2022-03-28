@@ -1,144 +1,101 @@
-  // IIEF CREATED FOR POKEMON LIST //
-
-  let pokemonRepository = (function () {
-    let modalContainer = document.querySelector('#modal-container');
-    
-    //pokemon list taken from an external API
+//Start of IIFE
+let pokemonRepository = (function () {
   let pokemonList = [];
   let apiUrl = 'https://pokeapi.co/api/v2/pokemon/?limit=150';
 
-
-  // add new pokemon to the list
-  function add(pokemon) {
-    if (
-      typeof pokemon === "object" &&
-      "name" in pokemon &&
-      "detailsUrl" in pokemon
-    ) {
-      pokemonList.push(pokemon);
-    } else {
-      console.log("pokemon is not correct");
-    }
-  }
-  //gets the pokemon list 
+//add new pokemon to pokemonList
+function add(pokemon) {
+  // "add" function adds pokemon to the "pokemonList" via the "push" function
+  pokemonList.push(pokemon);
+}
+//return all pokemons
   function getAll() {
     return pokemonList;
   }
 
-  // Creates button with Pokemon list
-  function addListItem(pokemon) {
-    let pokemonList = document.querySelector ('.pokemon-list');
-    let listPokemon = document.createElement('li');
+//create button of pokemons
+  function addListItem(pokemon){
+    let pokemonList = document.querySelector('.list-group');
+    let listpokemon = document.createElement('li');
     let button = document.createElement('button');
     button.innerText = pokemon.name;
-    button.classList.add('button-class');
-    listPokemon.appendChild(button);
-    pokemonList.appendChild(listPokemon);
-    button.addEventListener("click", function(event) {
-        showDetails(pokemon);
-    });
-  }
-
-
-  //load list function- promise function
-
+    button.classList.add('btn-primary');
+    listpokemon.classList.add('group-list-item');
+    listpokemon.appendChild(button);
+    pokemonList.appendChild(listpokemon);
+    button.addEventListener('click', function() {
+      showDetails(pokemon);
+  })
+}
+  //load list of pokemon from apiUrl
   function loadList() {
       return fetch(apiUrl).then(function (response) {
-      return response.json();
-    }).then(function (json) {
-      json.results.forEach(function (item) {
-        let pokemon = {
-          name: item.name,
-          detailsUrl: item.url
-        };
-        add(pokemon);
-        console.log(pokemon);
+        return response.json();
+      }).then(function (json) {
+        json.results.forEach(function (item) {
+          let pokemon = {
+            name: item.name,
+            detailsUrl: item.url
+          };
+          add(pokemon);
+          console.log(pokemon);
+        });
+      }).catch(function (e) {
+        console.error(e);
       });
-    }).catch(function (e) {
-      console.error(e);
-    })
-  }
-
-  // Load details function 
-
-    async function loadDetails(item) {
-    let url = item.detailsUrl;
-    try {
-      const response = await fetch(url);
-      const details = await response.json();
-      // Now we add the details to the item
-      item.imageUrl = details.sprites.front_default;
-      item.height = details.height;
-      item.types = details.types;
-    } catch (e) {
-      console.error(e);
     }
-  }
-  //shows pokemon name when called
-  function showDetails(item) {
-    pokemonRepository.loadDetails(item).then(function() {
-    showModal(item);
-  });
-  }
-  //adds a click listener when a pokemon button is pressed and shows pokemon name
-  function addListener(button, pokemon) {
-    button.addEventListener("click", function() {
-      showDetails(pokemon);
-    });
-  }
-  function showModal(pokemon) {
-    // Clear all existing modal content
-    modalContainer.innerHTML = " ";
-    
-    let modal = document.createElement("div");
-    modal.classList.add("modal");
-    
-    // Add the new modal content: first close button option
-
-    let closeButtonElement = document.createElement("button");
-    closeButtonElement.classList.add("modal-close");
-    closeButtonElement.innerText = "Close";
-    closeButtonElement.addEventListener("click", hideModal);
-    
-    let titleElement = document.createElement("h1");
-    titleElement.innerText = pokemon.name;
-
-     // ADDING AN IMAGE TO EACH POKEMON MODAL
-     let imageElement = document.createElement('img');
-     imageElement.classList.add('pokemon-image-class');
-     imageElement.setAttribute ("src", pokemon.imageUrl);
-    
-    let contentElement = document.createElement("p");
-    contentElement.innerText = "Height: " + pokemon.height;
-
-
-    modal.appendChild(closeButtonElement);
-    modal.appendChild(titleElement);
-    modal.appendChild(imageElement);
-    modal.appendChild(contentElement);
-    modalContainer.appendChild(modal);
-    
-    modalContainer.classList.add("is-visible");
-  }
-
-  function hideModal() {
-    modalContainer.classList.remove("is-visible");
-  }
-
-  window.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && modalContainer.classList.contains('is-visible')) {
-      hideModal();  
+//load data of each pokemon when click on pokemon
+    function loadDetails(item) {
+      let url = item.detailsUrl;
+      return fetch(url).then(function (response) {
+        return response.json();
+      }).then(function (details) {
+        // Now we add the details to the item
+        item.imageUrl = details.sprites.front_default;
+        item.height = details.height;
+        item.weight = details.weight;
+        item.types = details.types;
+        item.abilities = [];
+        for (let i = 0; i < details.abilities.length; i++) {
+          item.abilities.push(details.abilities[i].ability.name);
+        }
+      }).catch(function (e) {
+        console.error(e);
+      });
     }
-  });
-
-  modalContainer.addEventListener("click", (e) => {
-    // Since this is also triggered when clicking INSIDE the modal
-    // We only want to close if the user clicks directly on the overlay
-    let target = e.target;
-    if (target === modalContainer) {
-      hideModal();
+//after click on pokemon button,load the data of pokemon from server
+    function showDetails(item) {
+      loadDetails(item).then(function () {
+        showModal(item);
+      });
     }
-  });
+
+    function showModal(item) {
+      // showModal function
+      let modalTitle = $('.modal-title'); // modalTitle
+      let modalBody = $('.modal-body'); // modalBody
+      // let modalHeader = $(".modal-header"); // no header so removed
+
+      let pokemonName = $('<h2>' + item.name + '</h2>');
+
+      let pokemonHeight = $('<p>' + 'Height: ' + item.height + '</p>');
+
+      let pokemonWeight = $('<p>' + 'Weight: ' + item.weight + '</p>');
+
+      let pokemonAbilities = $('<p>' + 'Abilities: ' + item.abilities + '</p>');
+
+      let pokemonImage = $('<img class=\'pokemon-modal-image\'>');
+      pokemonImage.attr('src', item.imageUrl); // pokemon image attribute loaded from 'item.imageUrl'
+
+      modalTitle.empty(); // clears the modalTitle after display
+      modalBody.empty(); // clears the modalBody after display
+
+      modalTitle.append(pokemonName); // pokemonName is displayed as the title in the modal
+      modalBody.append(pokemonImage); // pokemonImage is displayed in the body of the modal
+      modalBody.append(pokemonHeight); // pokemonHeight is displayed in the body of the modal
+      modalBody.append(pokemonWeight); // pokemonWeight is displayed in the body of the modal
+      modalBody.append(pokemonAbilities); // pokemonDetails are displayed in the body of the modal
+    }
 
   return {
     add: add,
@@ -146,32 +103,13 @@
     addListItem: addListItem,
     loadList: loadList,
     loadDetails: loadDetails,
-    showDetails: showDetails,
-    showModal: showModal,
-    hideModal: hideModal
+    showDetails: showDetails
   };
-  })();
+})();//end of IIFE
 
-  pokemonRepository.loadList().then(function() {
-    pokemonRepository.getAll().forEach(function(pokemon) {
+
+pokemonRepository.loadList().then(function() {
+  pokemonRepository.getAll().forEach(function(pokemon){
     pokemonRepository.addListItem(pokemon);
   });
-  });
-
-  // Check if pointer events are supported.
-if (window.PointerEvent) {
-  // Add Pointer Event Listener
-  swipeFrontElement.addEventListener('pointerdown', this.handleGestureStart, true);
-  swipeFrontElement.addEventListener('pointermove', this.handleGestureMove, true);
-  swipeFrontElement.addEventListener('pointerup', this.handleGestureEnd, true);
-  swipeFrontElement.addEventListener('pointercancel', this.handleGestureEnd, true);
-} else {
-  // Add Touch Listener
-  swipeFrontElement.addEventListener('touchstart', this.handleGestureStart, true);
-  swipeFrontElement.addEventListener('touchmove', this.handleGestureMove, true);
-  swipeFrontElement.addEventListener('touchend', this.handleGestureEnd, true);
-  swipeFrontElement.addEventListener('touchcancel', this.handleGestureEnd, true);
-
-  // Add Mouse Listener
-  swipeFrontElement.addEventListener('mousedown', this.handleGestureStart, true);
-}
+});
